@@ -1,0 +1,13 @@
+#defining the resource PVC, which is nothing but, claiming the required storage from earlier defined PV
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql
+  namespace: expense
+spec:
+  storageClassName: "expense-ebs" # sc name is given
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
