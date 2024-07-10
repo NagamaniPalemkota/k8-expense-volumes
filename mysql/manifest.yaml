@@ -32,6 +32,7 @@ spec:
         project: expense
         tier: db # has to match .spec.selector.matchLabels
     spec:
+      
       containers:
       - name: mysql
         image: nagamanimuvva/mysql:v1.0
@@ -41,7 +42,25 @@ spec:
         volumeMounts:
         - name: mysql
           mountPath: /var/lib/mysql
+      nodeSelector:
+          topology.kubernetes.io/zone: us-east-1b
       volumes:
       - name: mysql
         persistentVolumeClaim:
           claimName: mysql
+  ---
+  apiVersion: v1
+  kind: Service
+  metadata: 
+    name: mysql
+    namespace: expense
+  spec:
+    clusterIP: none #this is called headless service
+    selector:
+      component: mysql
+      project: expense
+      tier: db
+    ports:
+      - protocol: TCP
+        port: 3306   #service port
+        targetPort: 3306  #pod port
