@@ -16,10 +16,10 @@
 apiVersion: v1
 kind: Service
 metadata: 
-  name: headless-service-mysql
+  name: mysql-headless
   namespace: expense
 spec:
-  clusterIP: none #this is called headless service
+  clusterIP: None #this is called headless service
   selector:
     component: mysql
     project: expense
@@ -55,7 +55,7 @@ spec:
       component: mysql
       project: expense
       tier: db # has to match .spec.template.metadata.labels
-  serviceName: "headless-service-mysql" #provide head-less service name
+  serviceName: "mysql-headless" #provide head-less service name
   replicas: 2 # by default is 1
   template:
     metadata:
