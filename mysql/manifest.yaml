@@ -29,7 +29,7 @@ spec:
       port: 3306   #service port
       targetPort: 3306  #pod port
   ---
-apiVersion: v1   #service definition
+apiVersion: v1   
 kind: Service
 metadata: 
   name: mysql-service
