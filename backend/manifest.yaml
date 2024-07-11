@@ -1,0 +1,57 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+ name: backend-configmap
+ namespace: expense
+data: 
+  DB_HOST: mysql-service #mysql component service name
+#configmap details to tell backend to connect to mysql service
+---
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: backend
+  namespace: expense
+  labels:
+    app: expense
+    tier: app
+    component: backend
+  #these labels belong to deployment set resource
+spec:
+  replicas: 2 #specify no. of pods, as per our requirement
+  selector: #select the pods with these labels
+    matchLabels:
+      app: expense
+      tier: app
+      component: backend
+    #below mentioned code refers to pod definition
+  template:
+    metadata:
+      labels:
+        app: expense
+        tier: app
+        component: backend
+    spec:
+      containers:
+      - name: backend
+        image: nagamanimuvva/backend:v1.0
+        envFrom:
+        - configMapRef:
+            name: backend-configmap
+---
+#creating backend service to connect to backend
+apiVersion: v1
+kind: Service
+metadata: 
+  name: backend
+  namespace: expense
+spec:
+  selector:
+    app: expense
+    tier: app
+    component: backend
+  ports:
+    - protocol: TCP
+      port: 8080   #service port
+      targetPort: 8080  #pod port
