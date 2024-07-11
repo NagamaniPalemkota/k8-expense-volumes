@@ -13,36 +13,36 @@
 #       storage: 4Gi
 
 #head-less service definition
-  apiVersion: v1
-  kind: Service
-  metadata: 
-    name: headless-service-mysql
-    namespace: expense
-  spec:
-    clusterIP: none #this is called headless service
-    selector:
-      component: mysql
-      project: expense
-      tier: db
-    ports:
-      - protocol: TCP
-        port: 3306   #service port
-        targetPort: 3306  #pod port
+apiVersion: v1
+kind: Service
+metadata: 
+  name: headless-service-mysql
+  namespace: expense
+spec:
+  clusterIP: none #this is called headless service
+  selector:
+    component: mysql
+    project: expense
+    tier: db
+  ports:
+    - protocol: TCP
+      port: 3306   #service port
+      targetPort: 3306  #pod port
   ---
-  apiVersion: v1   #service definition
-  kind: Service
-  metadata: 
-    name: mysql-service
-    namespace: expense
-  spec:
-    selector:
-      component: mysql
-      project: expense
-      tier: db
-    ports:
-      - protocol: TCP
-        port: 3306   #service port
-        targetPort: 3306  #pod port
+apiVersion: v1   #service definition
+kind: Service
+metadata: 
+  name: mysql-service
+  namespace: expense
+spec:
+  selector:
+    component: mysql
+    project: expense
+    tier: db
+  ports:
+    - protocol: TCP
+      port: 3306   #service port
+      targetPort: 3306  #pod port
 ---
 apiVersion: apps/v1
 kind: StatefulSet
