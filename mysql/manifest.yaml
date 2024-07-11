@@ -21,7 +21,6 @@ metadata:
 spec:
   clusterIP: None #this is called headless service
   selector:
-    component: mysql
     project: expense
     tier: db
   ports:
